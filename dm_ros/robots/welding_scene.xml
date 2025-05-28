@@ -1,0 +1,95 @@
+<mujoco model="welding_scene">
+
+    <option timestep="0.002" gravity="0 0 -9.81"/>
+  
+    <default>
+        <geom type="box" condim="1" friction="0.8 0.1 0.1" rgba="0.6 0.6 0.6 1"/>
+    </default>
+
+    <!-- fr3 & common asset -->
+    <include file="common/assets.xml"/>
+    <include file="common/sensor.xml"/>
+    <include file="fr3/assets.xml"/>
+    <include file="franka_hand/assets.xml"/>
+    <include file = 'fr3/actuator.xml'/>
+    <include file = 'franka_hand/actuator.xml'/>
+
+    <!-- common scene for welding -->
+    <worldbody>
+    
+    <!-- light/바닥 정의 -->
+        <include file="common/scene.xml" />        
+    <!-- Franka 로봇 불러오기 -->
+        <include file="fr3/fr3_hand_urdf.xml"/>
+
+    <!-- welding 환경 -->    
+        <!-- 테이블 (기준면)-->
+        <!-- 테이블(기준면): 위치를 (0.4, 0.3, 0.5) → (0.5, 0.0, 0.45)로 약간 당기고 Z축 30° 회전 -->
+        <body name="table" pos="0.5 0 0.45" euler="0 0 0.5236"> 
+            <geom name="table_top" type="box" size="0.15 0.3 0.02" pos="0 0 0.02" rgba="0.3 0.3 0.3 1" contype = "2" conaffinity = "2"/>
+            
+            <!-- Lap joint -->
+            <body name="lap_base" pos="-0.1 -0.15 0.04">
+                <geom type="box" size="0.1 0.05 0.005" rgba="0.6 0.2 0.2 1" contype = "2" conaffinity = "2"/>
+                <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                <body name="lap_top" pos="0.03 0.02 0.005">
+                    <geom type="box" size="0.1 0.05 0.005" rgba="0.8 0.3 0.3 1" contype = "2" conaffinity = "2"/>
+                    <site name="lap_start" pos="-0.1 -0.05 0.005" size="0.003" rgba="1 0 0 1"/>
+                    <site name="lap_end" pos="-0.1 0.05 0.005" size="0.003" rgba="0 1 0 1"/>
+                    <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                </body>
+            </body>
+        
+        <!-- original
+               <body name="table" pos="0.6 0 0.3"> 
+            <geom name="table_top" type="box" size="0.2 0.5 0.02" pos="0 0 0.02" rgba="0.3 0.3 0.3 1"/>
+            
+            <body name="lap_base" pos="-0.2 -0.15 0.04">
+                <geom type="box" size="0.15 0.05 0.005" rgba="0.6 0.2 0.2 1"/>
+                <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                <body name="lap_top" pos="0.03 0.02 0.005">
+                    <geom type="box" size="0.15 0.05 0.005" rgba="0.8 0.3 0.3 1"/>
+                    <site name="lap_start" pos="-0.15 -0.05 0.005" size="0.003" rgba="1 0 0 1"/>
+                    <site name="lap_end" pos="0.15 -0.05 0.005" size="0.003" rgba="0 1 0 1"/>
+                    <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                </body>
+            </body>
+        -->
+
+
+            <!-- Fillet weld joint (회전된 T자형) -->
+            <body name="fillet_joint_base" pos="0.15 0.15 0.04" euler="0 0 0.7854">
+                <geom type="box" size="0.1 0.02 0.005" rgba="0.2 0.2 0.8 1" contype = "2" conaffinity = "2"/>
+                <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                <body name="fillet_joint_vertical" pos="0 0 0.015">
+                    <geom type="box" size="0.02 0.1 0.005" pos="0 0 0.025" rgba="0.2 0.2 0.8 1" contype = "2" conaffinity = "2"/>
+                    <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+                </body>
+            </body>
+
+            <!-- 곡면 파이프 (cylinder) -->
+            <body name="curved_pipe" pos="0.0 0.25 0.04" euler="0 1.57 0">
+                <geom type="cylinder" size="0.02 0.15" rgba="0.1 0.6 0.1 1" contype = "2" conaffinity = "2"/>
+                <joint type="hinge" axis="0 0 1" pos="0 0 0.005"/>
+            </body>
+                    
+
+	    <!-- 평평한 철판 
+            <body name="flat_plate" pos="0.15 -0.15 0.04">
+                <geom type="box" size="0.15 0.05 0.005" rgba="0.8 0.2 0.2 1"/>
+                <joint type = "hinge" axis = "0 0 1"/>
+            </body>-->
+
+            <!-- T자형 조인트 (판 두 개로 구성) 
+            <body name="t_joint_base" pos="-0.2 0.2 0.04">
+                <geom type="box" size="0.1 0.02 0.005" rgba="0.2 0.2 0.8 1"/>
+                <joint type = "hinge" axis = "0 0 1"/>
+                <body name="t_joint_vertical" pos="0 0 0.015">
+                    <geom type="box" size="0.02 0.1 0.005" pos="0 0 0.025" rgba="0.2 0.2 0.8 1"/>
+                    <joint type = "hinge" axis = "0 0 1"/>
+                </body>
+            </body>-->
+        </body>
+    </worldbody>
+</mujoco>
+

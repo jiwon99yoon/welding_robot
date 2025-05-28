@@ -21,10 +21,12 @@ for root, dirs, files in os.walk(robots_path):
 setup(
     name=package_name,
     version='0.0.0',
+    
     # packages=find_packages(exclude=['test']),
-    packages=[package_name],
+    # 이렇게 바꾸라고 함packages=[package_name],
+    packages=find_packages(include=['dm_ros', 'dm_ros.*']),
     data_files= data_files,
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'dm_msgs'],
     zip_safe=True,
     maintainer='Haeseong Lee',
     maintainer_email='lhs4138@snu.ac.kr',
@@ -36,6 +38,7 @@ setup(
         'console_scripts': [
             'fr3_test = dm_ros.fr3_test:main',
             'fr3_free = dm_ros.fr3_free:main',
+            'welding_free = dm_ros.welding_free:main',
         ],
     },
 )

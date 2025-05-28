@@ -1,0 +1,11 @@
+<mujocoinclude>
+
+    <asset>
+        <material name ="box1_red" rgba="1 0 0 1"/>
+        <material name ="box2_blue" rgba="0 0 1 1"/> 
+        <!-- 추가적인 mesh 파일을 asset으로 등록하려면 아래처럼 <mesh> 태그를 사용하세요.
+      <mesh name="my_mesh" file="common/mesh/my_mesh.obj"/> (ex. 외부 mesh) -->
+
+    </asset>
+
+</mujocoinclude>

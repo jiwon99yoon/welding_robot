@@ -13,6 +13,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(dm_msgs REQUIRED) #for orient불러오기
 find_package(Boost REQUIRED COMPONENTS python)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(eigenpy REQUIRED)
@@ -76,6 +77,7 @@ install(TARGETS ${PROJECT_NAME}_wrapper_cpp
 
 # Export package dependencies for ROS 2
 ament_export_dependencies(ament_cmake Eigen3 Boost eigenpy ament_cmake_python)
+ament_export_dependencies(dm_msgs) #orient필요
 
 
 if(BUILD_TESTING)

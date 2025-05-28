@@ -1,0 +1,11 @@
+<mujoco model="two_box">
+    <include file="common/assets.xml"/>
+    <include file="two_box/assets.xml"/>
+    
+    <option gravity="0 0 -9.81"/>
+    
+    <worldbody>
+        <include file="common/scene.xml" />    
+        <include file="two_box/two_box_urdf.xml" />    
+    </worldbody>
+</mujoco>

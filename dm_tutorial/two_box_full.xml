@@ -1,0 +1,55 @@
+<mujoco model="two_box_full">
+
+    <option gravity="0 0 -9.81"/>
+
+    <asset>
+        <!-- common/assets.xml -->
+        <texture name="plane" type="2d" builtin="checker" 
+                 rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="256" height="256" 
+                 mark="cross" markrgb=".8 .8 .8" />
+        <material name="plane" reflectance="0.3" texture="plane" 
+                  texrepeat="1 1" texuniform="true" />
+
+        <material name="black" rgba=".2 .2 .2 1"/>
+        <material name="white" rgba="1 1 1 1"/>
+        <material name="red" rgba="1 0.072272 0.039546 1"/>
+        <material name="gray" rgba="0.863156 0.863156 0.863157 1"/>
+        <material name="button_green" rgba="0.102241 0.571125 0.102242 1"/>
+        <material name="button_red" rgba="0.520996 0.008023 0.013702 1"/>
+        <material name="button_blue" rgba="0.024157 0.445201 0.737911 1"/>
+        <material name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
+
+        <!-- two_box/assets.xml -->
+        <material name="box1_red" rgba="1 0 0 1"/>
+        <material name="box2_blue" rgba="0 0 1 1"/>
+    </asset>
+
+    <worldbody>
+        <!-- common/scene.xml -->
+        <light directional="true" diffuse=".2 .2 .2" specular="0 0 0" 
+               pos="0 1 5" dir="0 -1 -1" castshadow="false"/>
+        <light directional="false" diffuse=".8 .8 .8" specular="0.3 0.3 0.3" 
+               pos="0 -1 4" dir="0 0 -1" />
+        <light directional="true" diffuse="0 0 0" specular=".7 .7 .7" 
+               pos="0 3 3" dir="0 -3 -3" />
+        <geom name="floor" pos="0 0 -.0" group="1" size="0 0 .1" 
+              type="plane" material="plane" condim="3" />
+
+        <!-- two_box/two_box_urdf.xml -->
+        <body name="box1" pos="-0.5 0 0.5">
+            <joint name="joint1" pos = "0 0 0" type="hinge" group="3"/>
+            <!-- free로 바꾸면 자유낙하 - 현재는 z축 회전만 적용이라 낙하 x-->
+            <geom type="box" size="0.1 0.1 0.1" material="box1_red"/>
+            <site name="box1_site" pos="0 0 0.1" size ="0.02" type="sphere" rgba="0 1 0 1" group="2"/>
+        </body>
+        
+        <body name="box2" pos="0 0 0.5">
+            <joint name="slide_x" pos = "0 0 0" type="slide" axis="0 0 1"/>
+            <joint name="slide_y" type="slide" axis="0 1 0"/>
+            <geom type="box" size="0.1 0.1 0.1" material="box2_blue"/>
+            <site name="box2_site" pos="0 0 0.1" size="0.02" type="sphere" rgba="0 0 1 1" group="3"/>
+        </body>
+    </worldbody>
+
+</mujoco>
+

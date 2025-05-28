@@ -11,7 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'dm_msgs'],
     zip_safe=True,
     maintainer='hs_dyros',
     maintainer_email='lhs4138@snu.ac.kr',
@@ -21,7 +21,8 @@ setup(
         "test": ["pytest"]},    entry_points={
         'console_scripts': [
             'task_move_cli = dm_task_manager.task_move_client:main',
-            'joint_move_cli = dm_task_manager.joint_move_client:main'  
+            'joint_move_cli = dm_task_manager.joint_move_client:main',
+            'multi_pose_task_cli = dm_task_manager.multi_pose_task_client:main',  
         ],
     },
 )

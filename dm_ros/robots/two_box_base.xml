@@ -1,0 +1,19 @@
+<mujoco model="two_box_base">
+  <option gravity="0 0 -9.81"/>
+  <asset>
+    <material name="box1_red" rgba="1 0 0 1"/>
+    <material name="box2_blue" rgba="0 0 1 1"/>
+  </asset>
+  <worldbody>
+    <body name="box1" pos="-0.5 0 0.1">
+      <joint name="hinge_z" type="hinge" axis="0 0 1"/>
+      <geom type="box" size="0.1 0.1 0.1" material="box1_red"/>
+    </body>
+    <body name="box2" pos="0 0 0.1">
+      <joint name="slide_x" type="slide" axis="1 0 0"/>
+      <joint name="slide_y" type="slide" axis="0 1 0"/>
+      <geom type="box" size="0.1 0.1 0.1" material="box2_blue"/>
+    </body>
+  </worldbody>
+</mujoco>
+

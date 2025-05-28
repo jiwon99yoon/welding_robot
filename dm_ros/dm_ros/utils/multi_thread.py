@@ -8,6 +8,11 @@ from .scene_monitor import SceneMonitor
 from .image_publisher import MujocoCameraBridge
 import numpy as np
 
+# import 추가
+from dm_msgs.srv import GetSitePosition, GetSiteOrientation
+from geometry_msgs.msg import Point, Quaternion
+from scipy.spatial.transform import Rotation as R
+
 
 class MujocoROSBridge(Node):
     def __init__(self, robot_info, camera_info, robot_controller):
@@ -49,6 +54,22 @@ class MujocoROSBridge(Node):
         self.robot_thread = threading.Thread(target=self.robot_control, daemon=True)
         # self.hand_eye_thread = threading.Thread(target=self.hand_eye_control, daemon=True)
         # self.td_cam_thread = threading.Thread(target=self.td_cam_control, daemon=True)
+        
+        # GetSitePosition 서비스 등록
+        self.get_logger().info("Registering /get_site_position service")
+        self.site_srv = self.create_service(
+            GetSitePosition,
+            '/get_site_position',
+            self.get_site_position_callback  # 아래에 정의할 콜백
+        )
+
+        # --- GetSiteOrientation 서비스 등록 추가 ---
+        self.get_logger().info("Registering /get_site_orientation service")
+        self.orient_srv = self.create_service(
+            GetSiteOrientation,
+            '/get_site_orientation',
+            self.get_site_orientation_callback
+        )
 
 
     # visualize thread = main thread
@@ -100,7 +121,7 @@ class MujocoROSBridge(Node):
                     
                     # -------------------- ADD Controller ---------------------------- #
                     rclpy.spin_once(self.rc, timeout_sec=0.0001) # for scene monitor
-
+                    rclpy.spin_once(self, timeout_sec=0.0001) # for robot controller
                     self.data.ctrl[:self.ctrl_dof] = self.rc.compute()   
 
                     # ---------------------------------------------------------------- #
@@ -169,3 +190,55 @@ class MujocoROSBridge(Node):
 
         if verbose:
             print(f'Time {elapsed_time*1000:.4f} + {sleep_time*1000:.4f} = {(elapsed_time + sleep_time)*1000} ms')
+    
+    #pose 헬퍼 메서드 - site의 위치/자세 가져오기
+    def get_site_pos(self, site_name):
+        site_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
+        return np.array(self.data.site_xpos[site_id])
+        
+    #pose 콜벡 함수
+    def get_site_position_callback(self, request, response):
+        site_name = request.site_name
+        site_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
+
+        if site_id == -1:
+            self.get_logger().error(f"[GetSitePosition] '{site_name}' site not found!")
+            response.position.x = 0.0
+            response.position.y = 0.0
+            response.position.z = 0.0
+        else:
+            pos = self.data.site_xpos[site_id]
+            response.position.x = float(pos[0])
+            response.position.y = float(pos[1])
+            response.position.z = float(pos[2])
+            self.get_logger().info(f"[GetSitePosition] '{site_name}' → {pos}")
+
+        return response
+    
+    #orientation 헬퍼 메서드 - site의 자세(orientation) 가져오기
+    def get_site_orient(self, site_name):
+        site_id = mujoco.mj_name2id(
+            self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
+        # site_xmat 에는 3×3 행렬이 9개 요소(flat)로 들어있습니다
+        mat = np.array(self.data.site_xmat[site_id]).reshape(3,3)
+        # scipy 로 쿼터니언 변환
+        from scipy.spatial.transform import Rotation as R
+        quat = R.from_matrix(mat).as_quat()  # [x, y, z, w]
+        return quat
+    
+    #orientation 콜백 함수
+    def get_site_orientation_callback(self, request, response):
+        site_id = mujoco.mj_name2id(
+            self.model, mujoco.mjtObj.mjOBJ_SITE, request.site_name)
+        if site_id == -1:
+            self.get_logger().error(f"[GetSiteOrientation] '{request.site_name}' not found")
+            response.orientation = Quaternion(w=1.0)  # identity
+        else:
+            # data.site_xmat 는 3x3 행렬(flat array) 입니다
+            mat = np.array(self.data.site_xmat[site_id]).reshape(3,3)
+            quat = R.from_matrix(mat).as_quat()  # [x,y,z,w]
+            response.orientation.x = float(quat[0])
+            response.orientation.y = float(quat[1])
+            response.orientation.z = float(quat[2])
+            response.orientation.w = float(quat[3])
+        return response

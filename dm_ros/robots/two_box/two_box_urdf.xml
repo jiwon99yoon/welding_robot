@@ -1,0 +1,14 @@
+<mujocoinclude>
+    <!-- 상자 1: 왼쪽, hinge joint (z축 회전) -->
+    <body name="box1" pos="-0.5 0 0.1">
+      <joint name="hinge_z" type="hinge" axis="0 0 1"/>
+      <geom type="box" size="0.1 0.1 0.1" material="box1_red"/>
+    </body>
+    
+    <!-- 상자 2: 원점, x/y 평면 slide joint -->
+    <body name="box2" pos="0 0 0.1">
+      <joint name="slide_x" type="slide" axis="1 0 0"/>
+      <joint name="slide_y" type="slide" axis="0 1 0"/>
+      <geom type="box" size="0.1 0.1 0.1" material="box2_blue"/>
+    </body>
+</mujocoinclude>

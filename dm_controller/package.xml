@@ -14,6 +14,9 @@
   
   <build_depend>Eigen3</build_depend>
   <build_depend>pybind11</build_depend>
+  <!--#GetOrien..등 srv위해서 -->
+  <build_depend>dm_msgs</build_depend>
+  
   
   <exec_depend>Eigen3</exec_depend>
   <exec_depend>pybind11</exec_depend>
