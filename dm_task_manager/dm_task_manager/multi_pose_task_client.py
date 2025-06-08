@@ -136,7 +136,8 @@ def main(args=None):
 
     # 3) 첫 이동: relative offset → lap_start
     node.send_pose(pose_from_xyz_quat(rel_start, target_quat), duration)
-    time.sleep(duration + 1.0) # 1.0초 대기 - 0.1초 대기하면 막 이상해짐
+    time.sleep(duration + 10.0) # 1.0초 대기 - 0.1초 대기하면 막 이상해짐
+    #10초 대기 -> jointstate값뽑기위해서 echo joint_state
 
     # 4) 움직인 뒤 EE 위치/자세 다시 읽기
     ee_pos  = node.get_site_position("ee_site")
@@ -150,7 +151,8 @@ def main(args=None):
 
     # 6) 두 번째 이동: relative offset → lap_end
     node.send_pose(pose_from_xyz_quat(rel_end, target_quat), duration)
-    time.sleep(duration + 1.0) # 1.0초 대기 - 0.1초 대기하면 막 이상해짐
+    time.sleep(duration + 10.0) # 1.0초 대기 - 0.1초 대기하면 막 이상해짐 
+    #10초 대기 -> jointstate값뽑기위해서 echo joint_state
 
     node.destroy_node()
     rclpy.shutdown()

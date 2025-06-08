@@ -8,15 +8,28 @@ from .scene_monitor import SceneMonitor
 from .image_publisher import MujocoCameraBridge
 import numpy as np
 
+
 # import 추가
 from dm_msgs.srv import GetSitePosition, GetSiteOrientation
 from geometry_msgs.msg import Point, Quaternion
 from scipy.spatial.transform import Rotation as R
 
+# jointstate 뽑기 위해 -> 렉 많이 걸려서 비활성화
+#JointState publisher 추가
+from sensor_msgs.msg import JointState
 
 class MujocoROSBridge(Node):
     def __init__(self, robot_info, camera_info, robot_controller):
         super().__init__('mujoco_ros_bridge')
+
+        # joint names & publisher
+        self.joint_names = [
+            'fr3_joint1','fr3_joint2','fr3_joint3',
+            'fr3_joint4','fr3_joint5','fr3_joint6','fr3_joint7'
+        ]
+        self.joint_state_pub = self.create_publisher(
+            JointState, '/fr3/joint_states', 10
+        )
 
         # robot_info = [xml, urdf, hz]
         self.xml_path = robot_info[0]
@@ -123,6 +136,16 @@ class MujocoROSBridge(Node):
                     rclpy.spin_once(self.rc, timeout_sec=0.0001) # for scene monitor
                     rclpy.spin_once(self, timeout_sec=0.0001) # for robot controller
                     self.data.ctrl[:self.ctrl_dof] = self.rc.compute()   
+
+                    # --- publish joint positions ---
+                    js = JointState()
+                    js.header.stamp = self.get_clock().now().to_msg()
+                    js.name = self.joint_names
+                    js.position = [
+                        float(self.data.qpos[self.model.joint(j).qposadr])
+                        for j in self.joint_names
+                    ]
+                    self.joint_state_pub.publish(js)
 
                     # ---------------------------------------------------------------- #
                     # if self.ctrl_step % sync_step == 0:
