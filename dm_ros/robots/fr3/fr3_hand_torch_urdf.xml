@@ -1,4 +1,4 @@
-<!-- /home/minjun/wr_ws/src/welding_robot/dm_ros/robots/fr3/fr3_hand_urdf.xml-->
+<!-- /home/minjun/wr_ws/src/welding_robot/dm_ros/robots/fr3/fr3_hand_torch_urdf.xml-->
 <mujocoinclude>
 <body name="base" childclass="fr3">
     <body name="fr3_link0">
@@ -72,6 +72,11 @@
                         <include file="../franka_hand/franka_hand_urdf.xml"/>
                         <camera name="hand_eye" pos="0.1 0.0 0.000" euler="3.141592 0.218  0" mode="fixed" fovy="58"/>
                         <!-- <geom type="box" pos="0.1 0 0" size="0.0125 0.045 0.0125" euler="3.141592 0.218 0" rgba="0.8 0.2 0.2 1" /> -->
+                        
+                        <!-- 🔧 용접 토치를 franka_hand에 부착 -->
+                        <body name="torch_mount" pos="0 0 0.05" euler="0 0 0">
+                            <include file="../welding_torch/torch_urdf.xml"/>
+                        </body>
                     </body>
                 </body>
                 </body>

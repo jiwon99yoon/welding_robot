@@ -1,3 +1,4 @@
+#/home/minjun/wr_ws/src/welding_robot/dm_task_manager/dm_task_manager/multi_pose_task_client.py
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Pose

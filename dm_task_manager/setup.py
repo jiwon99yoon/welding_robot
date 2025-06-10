@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             'task_move_cli = dm_task_manager.task_move_client:main',
             'joint_move_cli = dm_task_manager.joint_move_client:main',
-            'multi_pose_task_cli = dm_task_manager.multi_pose_task_client:main',  
+            'multi_pose_task_cli = dm_task_manager.multi_pose_task_client:main',
+            'multi_pose_task_cli_way = dm_task_manager.multi_pose_task_client_waypoints:main',  
         ],
     },
 )

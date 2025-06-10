@@ -1,0 +1,116 @@
+<!-- /home/minjun/wr_ws/src/welding_robot/dm_ros/robots/welding_torch/torch_urdf.xml -->
+<mujocoinclude>
+    <body name="welding_torch_assembly" pos="0 0 0" euler="0 0 0">
+        <!-- 🔧 메인 토치 바디 (Lincoln Electric PTA-17 스타일) -->
+        <geom name="torch_main_body" 
+              class="torch_body"
+              size="0.014 0.08" 
+              pos="0 0 0.04" 
+              material="torch_metal" 
+              mass="0.15"/>
+        
+        <!-- 🎯 토치 핸들 (ergonomic grip) -->
+        <geom name="torch_handle_grip" 
+              type="box" 
+              size="0.018 0.022 0.035" 
+              pos="0 0 0.015" 
+              material="torch_handle" 
+              mass="0.08"
+              contype="0" conaffinity="0"/>
+        
+        <!-- 🔹 핸들 텍스처 라인들 (knurled grip 효과) -->
+        <geom name="handle_line_1" 
+              type="box" 
+              size="0.019 0.001 0.03" 
+              pos="0 0.018 0.015" 
+              material="torch_handle" 
+              mass="0.002"
+              contype="0" conaffinity="0"/>
+        <geom name="handle_line_2" 
+              type="box" 
+              size="0.019 0.001 0.03" 
+              pos="0 -0.018 0.015" 
+              material="torch_handle" 
+              mass="0.002"
+              contype="0" conaffinity="0"/>
+        
+        <!-- ⚡ 토치 헤드 -->
+        <body name="torch_head" pos="0 0 0.08">
+            <!-- 토치 헤드 몸체 -->
+            <geom name="torch_head_body" 
+                  type="cylinder" 
+                  size="0.012 0.025" 
+                  pos="0 0 0.0125" 
+                  material="torch_metal" 
+                  mass="0.05"
+                  contype="0" conaffinity="0"/>
+            
+            <!-- 🔥 텅스텐 전극 (tungsten electrode) -->
+            <geom name="tungsten_electrode" 
+                  type="cylinder" 
+                  size="0.0015 0.012" 
+                  pos="0 0 0.031" 
+                  material="torch_tip_metal" 
+                  mass="0.002"
+                  contype="0" conaffinity="0"/>
+            
+            <!-- 🌪️ 가스 노즐 (ceramic cup) -->
+            <geom name="gas_nozzle_ceramic" 
+                  type="cylinder" 
+                  size="0.008 0.018" 
+                  pos="0 0 0.023" 
+                  material="gas_nozzle_ceramic" 
+                  mass="0.015"
+                  contype="0" conaffinity="0"/>
+            
+            <!-- 🔥 용접 아크 포인트 (시각 효과용) -->
+            <site name="welding_arc_point" 
+                  pos="0 0 0.043" 
+                  size="0.003" 
+                  material="welding_arc"/>
+            
+            <!-- ⚡ 스파크 효과 포인트 -->
+            <site name="welding_sparks_site" 
+                  pos="0 0 0.04" 
+                  size="0.002" 
+                  material="welding_sparks"/>
+        </body>
+        
+        <!-- 🔌 가스 공급 호스 -->
+        <body name="gas_supply_hose" pos="0 0.02 0.06">
+            <geom name="gas_hose" 
+                  class="torch_cable"
+                  size="0.003 0.015" 
+                  pos="0 0.015 -0.01" 
+                  euler="0 0.3 0" 
+                  material="torch_cable" 
+                  mass="0.02"/>
+        </body>
+        
+        <!-- ⚡ 전원 케이블 -->
+        <body name="power_cable" pos="0 0 -0.02">
+            <geom name="power_cable_1" 
+                  class="torch_cable"
+                  size="0.006 0.04" 
+                  pos="0 0.025 -0.02" 
+                  euler="0 0.4 0" 
+                  material="torch_cable" 
+                  mass="0.08"/>
+        </body>
+        
+        <!-- 🏷️ 토치 라벨 (Lincoln Electric 스타일) -->
+        <geom name="torch_label_red" 
+              type="box" 
+              size="0.016 0.004 0.001" 
+              pos="0 0 0.055" 
+              material="torch_label" 
+              mass="0.001"
+              contype="0" conaffinity="0"/>
+        
+        <!-- 🎯 End-effector 기준점 -->
+        <site name="torch_tip_site" 
+              pos="0 0 0.123" 
+              size="0.001" 
+              rgba="1 0 0 1"/>
+    </body>
+</mujocoinclude>

@@ -12,7 +12,7 @@ def main():
    
     # welding 환경용 XML/URDF 경로 : package_share 사용 x
     
-    xml_path = os.path.join(current_dir, '../robots', "welding_scene.xml")
+    xml_path = os.path.join(current_dir, '../robots', "welding_scene2.xml")
     urdf_path = os.path.join(current_dir, '../robots', 'fr3/fr3_hand.urdf')
         
     rc = Fr3Controller(urdf_path) 

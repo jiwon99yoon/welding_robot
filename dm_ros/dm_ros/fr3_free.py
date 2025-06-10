@@ -1,3 +1,4 @@
+# /home/minjun/wr_ws/src/welding_robot/dm_ros/dm_ros/fr3_free.py
 import rclpy
 import os
 from prc import Fr3Controller

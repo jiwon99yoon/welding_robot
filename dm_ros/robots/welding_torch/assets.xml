@@ -1,0 +1,48 @@
+<!-- /home/minjun/wr_ws/src/welding_robot/dm_ros/robots/welding_torch/assets.xml -->
+<mujocoinclude>
+    <default>
+        <default class="welding_torch">
+            <default class="torch_body">
+                <geom type="cylinder" contype="0" conaffinity="0"/>
+            </default>
+            <default class="torch_cable">
+                <geom type="capsule" contype="0" conaffinity="0"/>
+            </default>
+        </default>
+    </default>
+    
+    <compiler angle="radian" autolimits="true" meshdir="./mesh"/>
+    
+    <asset>
+        <!-- 🎨 실제 용접 토치 재질 정의 -->
+        <!-- 메인 토치 바디 - 진한 금속 회색 (Lincoln Electric 스타일) -->
+        <material name="torch_metal" rgba="0.2 0.22 0.25 1" specular="0.9" shininess="0.4"/>
+        
+        <!-- 텅스텐 전극 - 밝은 은색 금속 -->
+        <material name="torch_tip_metal" rgba="0.85 0.85 0.9 1" specular="1.0" shininess="0.8"/>
+        
+        <!-- 케이블 - 검은색 고무 -->
+        <material name="torch_cable" rgba="0.05 0.05 0.05 1" specular="0.1" shininess="0.1"/>
+        
+        <!-- 핸들 그립 - 검은색 고무 (미끄럼 방지) -->
+        <material name="torch_handle" rgba="0.08 0.08 0.08 1" specular="0.2" shininess="0.1"/>
+        
+        <!-- 가스 노즐 - 연한 세라믹 색상 -->
+        <material name="gas_nozzle_ceramic" rgba="0.95 0.93 0.88 1" specular="0.4" shininess="0.3"/>
+        
+        <!-- 브랜드 라벨 - 빨간색 Lincoln Electric 스타일 -->
+        <material name="torch_label" rgba="0.8 0.1 0.1 1" specular="0.3" shininess="0.2"/>
+        
+        <!-- ⚡ 용접 아크 효과 재질 -->
+        <material name="welding_arc" rgba="0.3 0.6 1.0 0.9" emission="0.5"/>
+        <material name="welding_heat" rgba="1.0 0.4 0.1 0.7" emission="0.6"/>
+        <material name="welding_sparks" rgba="1.0 0.9 0.2 1.0" emission="0.8"/>
+        
+        <!-- 메시 파일들 (추후 사용시) -->
+        <!-- 
+        <mesh file="mesh/torch_body.stl"/>
+        <mesh file="mesh/torch_tip.stl"/>
+        <mesh file="mesh/gas_nozzle.stl"/>
+        -->
+    </asset>
+</mujocoinclude>

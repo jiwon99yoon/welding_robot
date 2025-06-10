@@ -1,3 +1,4 @@
+# /home/minjun/wr_ws/src/welding_robot/dm_ros/dm_ros/utils/multi_thread.py
 import rclpy
 from rclpy.node import Node
 import mujoco

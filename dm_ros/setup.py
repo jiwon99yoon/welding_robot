@@ -39,6 +39,7 @@ setup(
             'fr3_test = dm_ros.fr3_test:main',
             'fr3_free = dm_ros.fr3_free:main',
             'welding_free = dm_ros.welding_free:main',
+            'welding_free2 = dm_ros.welding_free2:main',
         ],
     },
 )
