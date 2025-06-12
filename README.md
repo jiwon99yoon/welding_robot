@@ -1,2 +1,2 @@
-# dyros_mujoco
-dyros mujoco robot control framework
+# welding_robot 
+welding robot control framework for thesis
